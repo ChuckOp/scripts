@@ -1,0 +1,181 @@
+PassMark AppTimer V1.0 build 1010
+Copyright (C) 2015 PassMark(R) Software
+All Rights Reserved
+http://www.passmark.com
+
+Overview
+========
+AppTimer will run an executable a number of times and time
+how long it takes for the application to reach a state where
+user input is being accepted before exiting the application.
+
+After each run of the application AppTimer will attempt to
+close the application in an automated fashion.
+
+It's main use is in benchmarking an application's startup time.
+
+Parameters
+==========
+Application
+	The path to an executable to run 
+
+Cmd Line
+	Any command line arguments that need to be passed to
+	the executable
+
+Log File
+	The path of a log file to save results to and error
+	messages. New results will be appended to existing files.
+
+Window Name
+	Main window name of the application being run. This will
+	be used to determine a) when the application if fully
+	initialised and b) which window to close when exiting
+	the application.
+	
+	The name doesn't need to exactly match the Windows title
+	as Apptimer attempts a sub-string match.
+	Example 1: "Jasc" will match the window that has a title
+	"Jasc Paint Shop Pro".
+	Example 2: "Blank" will match the Internet Explorer window
+	that has a title "Blank page - Windows Internet Explorer".
+
+Executions
+	Number of times to execute and time the application.
+
+Delay
+	This is a delay between actions to give the applications
+	being executed time to cleanup and fully close between
+	executions. Exepected value is in miliseconds.
+
+Window Detection method
+	There are four options for how to detect the window;
+
+	Input Idle: 	window is detected once it starts accepting
+		     	user input
+	Window Name:	uses the window name entered in the field above
+		      	and searches through available windows for a 
+			match
+ 	Exact Match:	Only available in conjunction with Window Name,
+			matches window name exactly (otherwise a 
+			sub-sting match is used)
+	Visible:	Window is queried whether it has a visible 
+			status. Requires Window name.	
+
+Window Close Method
+	There are three options for closing the window;	
+	
+	WM_CLOSE:	A WM_CLOSE message is sent to the window
+	WM_SYSYCOMMAND:	A WM_SYSYCOMMAND is sent to the window
+	ALT-F4:		An key command of ALT-F4 is sent to the window
+
+	All of these require the window name to be entered.
+	
+Debug
+	Adds extra output to the log file (such as window names when
+	searching for a match). 1 = Debug, 0 = No debug.
+
+New windows only
+	Only tries to match a window name to newly detected windows
+	after the application has been launched. 1 = Active, 0 = Not active.
+
+Auto-run & Auto-close
+  Attempts to auto-launch the tool with the paramters set in the config file.
+  1 = Active, 0 = Not active.
+
+
+Parameters from a file
+======================
+AppTimer will attempt to open a config file called
+"config.txt" in the same directory as the executable. 
+This confiog file should have a value for each parameter
+on a seperate line in the order;
+	
+	Application path
+	Command line arguments
+	Log file path
+	Window name
+	Executions
+	Delay time
+	Window detection method, 1 to use, 0 to ignore, 
+				 seperated by a space
+	Window close method, 1 to use, 0 to ignore, 
+			     seperated by a space
+	Debug mode
+  New Windows only flag
+  Auto-run flag
+  
+Leave a blank line for an item for no value.
+
+
+Example Config file
+====================
+C:\test.exe
+
+C:\tmplog.txt
+TestWindow
+5
+1000
+1 1 0 0
+1 1 0
+0
+0
+1
+
+The above config file will run test.exe, with no command
+line arguments, 5 times with a delay between actions 
+of 1 second and store the results in C:\templog.txt. 
+It uses window detection methods Input Idle and Window Name,
+and window close methods WM_CLOSE and WM_SYSCOMMAND.
+This is all done automatically with the auto-tun flag.
+
+Notes
+=====
+An important part of using the tool is identifying the Window
+name for the main window of the application under test.
+
+For example in Internet Explorer this might be,
+"Google - Windows Internnet Exploxer"
+
+For Word this might be,
+"Document1 - Micorsoft Word"
+
+
+Example output
+==============
+The output file contains the executable path, the number of
+test loops and the application startup time in seconds.
+
+For exammple,
+C:\Program Files\Microsoft Office\OFFICE11\WINWORD.EXE - 3 executions
+1.2813
+1.2345
+1.2345
+
+Typically the 1st run of the application would be slower than
+subsequent runs.
+
+
+Installation
+============
+1) Extract all file to a directory on your hard disk
+2) Double click on the AppTimer.exe file to run the software
+
+
+UnInstallation
+==============
+1) Delete all the files from the directory
+
+
+Requirements
+============
+We have tested on Windows XP, Vista, Win 7 & 8.
+
+
+Support
+=======
+For technical support, questions, see our web site
+http://www.passmark.com
+
+Enjoy..
+The PassMark Development team
