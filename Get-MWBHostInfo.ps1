@@ -11,9 +11,9 @@
 # Secondary goals
 # Clean up TMP folder
 # Clean up any orphaned users
+# Run MSINFO32 and save file
 
-
-# Windows Version, type, and SKU information
+# Get Windows Version, type, and SKU information
 $Win32OS = Get-WmiObject Win32_OperatingSystem
 
 $Win32OS | Select-Object Version, Caption, BuildType, NumberOfUsers, OSProductSuite, SuiteMask, OperatingSystemSKU, OSType
@@ -28,6 +28,8 @@ Get-ChildItem -Path $MBBinaryPath\* -Include *.exe,*.dll | ForEach-Object Versio
 Get-WmiObject win32_userprofile | Select-Object SID, LocalPath, LastUseTime, Loaded
 
 Get-ChildItem ($env:HOMEDRIVE+"\Users") -hidden | Format-Table
+
+# TODO: Go through Windows System log to find user profile problems
 
 # Get Microsoft-Windows-User Profile Service/Operational Log
 Get-WinEvent "Microsoft-Windows-User Profile Service/Operational" | Format-Table -AutoSize
